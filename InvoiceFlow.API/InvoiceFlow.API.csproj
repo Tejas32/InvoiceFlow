@@ -14,4 +14,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\InvoiceFlow.DAL\InvoiceFlow.DAL.csproj" />
+  </ItemGroup>
+
 </Project>
