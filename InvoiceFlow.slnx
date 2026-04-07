@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="InvoiceFlow.API/InvoiceFlow.API.csproj" />
+  <Project Path="InvoiceFlow.DAL/InvoiceFlow.DAL.csproj" />
+</Solution>
