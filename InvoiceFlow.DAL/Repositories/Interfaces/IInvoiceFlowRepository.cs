@@ -13,24 +13,24 @@ namespace InvoiceFlow.DAL.Repositories.Interfaces
         User GetUserByEmail(string email);
         void AddUser(User user);
 
-        // ===== CLIENTS =====
+        // clients
         List<Client> GetClients(int userId);
         void AddClient(Client client);
 
-        // ===== PRODUCTS =====
+        // Products
         List<Product> GetProducts(int userId);
         void AddProduct(Product product);
 
-        // ===== INVOICES =====
+        // Invoices
         List<Invoice> GetInvoices(int userId);
         Invoice GetInvoiceById(int invoiceId);
         int CreateInvoice(Invoice invoice);
         void UpdateInvoice(Invoice invoice);
 
-        // ===== INVOICE ITEMS =====
+        // Invoice Items
         void AddInvoiceItems(List<InvoiceItem> items);
 
-        // ===== SAVE =====
+        // Save
         void Save();
     }
 }
