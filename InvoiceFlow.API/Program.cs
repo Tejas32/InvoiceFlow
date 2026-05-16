@@ -1,3 +1,7 @@
+using InvoiceFlow.DAL.Models;
+using InvoiceFlow.DAL.Repositories.Interfaces;
+using InvoiceFlow.DAL.Repositories.Implementations;
+using Microsoft.EntityFrameworkCore;
 
 namespace InvoiceFlow.API
 {
@@ -10,7 +14,15 @@ namespace InvoiceFlow.API
             // Add services to the container.
 
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+            builder.Services.AddDbContext<InvoiceFlowDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            builder.Services.AddScoped<IInvoiceFlowRepository, InvoiceFlowRepository>();
+
+            // Learn more about configuring Swagger/OpenAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
