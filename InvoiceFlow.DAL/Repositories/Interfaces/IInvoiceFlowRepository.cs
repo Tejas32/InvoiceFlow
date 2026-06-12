@@ -30,6 +30,9 @@ namespace InvoiceFlow.DAL.Repositories.Interfaces
         // Invoice Items
         void AddInvoiceItems(List<InvoiceItem> items);
 
+        // Get user by email and password
+        User GetUserByEmailAndPassword(string email, string password);
+
         // Save
         void Save();
     }

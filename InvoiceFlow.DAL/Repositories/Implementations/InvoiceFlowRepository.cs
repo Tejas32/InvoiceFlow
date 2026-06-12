@@ -85,6 +85,14 @@ namespace InvoiceFlow.DAL.Repositories.Implementations
             _context.InvoiceItems.AddRange(items);
         }
 
+        // Get User by email and password
+        public User GetUserByEmailAndPassword(string email, string password)
+        {
+            return _context.Users.FirstOrDefault(x => x.Email == email
+                                                 && x.Password == password
+                                                 && x.IsDeleted == false);
+        }
+
         // Save
 
         public void Save()

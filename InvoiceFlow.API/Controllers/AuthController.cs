@@ -46,5 +46,29 @@ namespace InvoiceFlow.API.Controllers
             return Ok("User registered successfully");
         }
 
+
+        // Http Post Login 
+
+        [HttpPost("login")]
+        public IActionResult Login(LoginRequest request)
+        {
+            User user = _repository.GetUserByEmailAndPassword(
+                request.email,
+                request.password);
+
+            if (user == null)
+            {
+                return Unauthorized("Invalid email or password");
+            }
+
+            return Ok(new
+            {
+                user.UserId,
+                user.Name,
+                user.Email,
+                user.BusinessName
+            });
+        }
+
     }
 }
