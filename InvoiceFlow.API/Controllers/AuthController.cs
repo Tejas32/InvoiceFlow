@@ -2,18 +2,21 @@
 using InvoiceFlow.DAL.Models;
 using InvoiceFlow.DAL.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using InvoiceFlow.API.Services;
 
 namespace InvoiceFlow.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : Controller
+    public class AuthController : ControllerBase
     {
         private readonly IInvoiceFlowRepository _repository;
+        private readonly JwtService _jwtService;
 
-        public AuthController (IInvoiceFlowRepository repository)
+        public AuthController (IInvoiceFlowRepository repository, JwtService jwtService)
         {
             _repository = repository;
+            _jwtService = jwtService;
         }
 
         [HttpPost("register")]
@@ -52,21 +55,25 @@ namespace InvoiceFlow.API.Controllers
         [HttpPost("login")]
         public IActionResult Login(LoginRequest request)
         {
+
             User user = _repository.GetUserByEmailAndPassword(
-                request.email,
-                request.password);
+                request.Email,
+                request.Password);
 
             if (user == null)
             {
                 return Unauthorized("Invalid email or password");
             }
 
+            string token = _jwtService.GenerateToken(user);
+
             return Ok(new
             {
-                user.UserId,
-                user.Name,
-                user.Email,
-                user.BusinessName
+                Token = token,
+                UserId = user.UserId,
+                Name = user.Name,
+                Email = user.Email,
+                BusinessName = user.BusinessName
             });
         }
 

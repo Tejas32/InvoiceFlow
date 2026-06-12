@@ -1,6 +1,7 @@
+using InvoiceFlow.API.Services;
 using InvoiceFlow.DAL.Models;
-using InvoiceFlow.DAL.Repositories.Interfaces;
 using InvoiceFlow.DAL.Repositories.Implementations;
+using InvoiceFlow.DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace InvoiceFlow.API
@@ -11,8 +12,6 @@ namespace InvoiceFlow.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
             builder.Services.AddControllers();
 
             builder.Services.AddDbContext<InvoiceFlowDbContext>(options =>
@@ -21,14 +20,13 @@ namespace InvoiceFlow.API
             });
 
             builder.Services.AddScoped<IInvoiceFlowRepository, InvoiceFlowRepository>();
+            builder.Services.AddScoped<JwtService>();
 
-            // Learn more about configuring Swagger/OpenAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -39,7 +37,10 @@ namespace InvoiceFlow.API
 
             app.UseAuthorization();
 
-            app.UseCors(policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(policy =>
+                policy.AllowAnyOrigin()
+                      .AllowAnyMethod()
+                      .AllowAnyHeader());
 
             app.MapControllers();
 
