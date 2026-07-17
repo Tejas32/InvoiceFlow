@@ -19,7 +19,7 @@ namespace InvoiceFlow.API.Services
         {
             var claims = new List<Claim>
             {
-                new Claim("UserId", user.UserId.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                 new Claim(ClaimTypes.Name, user.Name ?? string.Empty),
                 new Claim(ClaimTypes.Email, user.Email ?? string.Empty)
             };

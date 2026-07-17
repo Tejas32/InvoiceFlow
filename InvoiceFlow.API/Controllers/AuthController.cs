@@ -1,8 +1,10 @@
 ﻿using InvoiceFlow.API.DTOs;
+using InvoiceFlow.API.Services;
 using InvoiceFlow.DAL.Models;
 using InvoiceFlow.DAL.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using InvoiceFlow.API.Services;
+using System.Security.Claims;
 
 namespace InvoiceFlow.API.Controllers
 {
@@ -13,12 +15,13 @@ namespace InvoiceFlow.API.Controllers
         private readonly IInvoiceFlowRepository _repository;
         private readonly JwtService _jwtService;
 
-        public AuthController (IInvoiceFlowRepository repository, JwtService jwtService)
+        public AuthController(IInvoiceFlowRepository repository, JwtService jwtService)
         {
             _repository = repository;
             _jwtService = jwtService;
         }
 
+        // Register User
         [HttpPost("register")]
         public IActionResult Register(RegisterRequest request)
         {
@@ -49,13 +52,10 @@ namespace InvoiceFlow.API.Controllers
             return Ok("User registered successfully");
         }
 
-
-        // Http Post Login 
-
+        // Login User
         [HttpPost("login")]
         public IActionResult Login(LoginRequest request)
         {
-
             User user = _repository.GetUserByEmailAndPassword(
                 request.Email,
                 request.Password);
@@ -77,5 +77,18 @@ namespace InvoiceFlow.API.Controllers
             });
         }
 
+        // Protected API
+        [Authorize]
+        [HttpGet("profile")]
+        public IActionResult Profile()
+        {
+            return Ok(new
+            {
+                Message = "JWT Authentication Successful",
+                User = User.Identity?.Name,
+                UserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value,
+                Email = User.FindFirst(ClaimTypes.Email)?.Value
+            });
+        }
     }
 }
