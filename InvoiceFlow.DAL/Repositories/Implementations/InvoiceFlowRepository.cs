@@ -118,12 +118,13 @@ namespace InvoiceFlow.DAL.Repositories.Implementations
                 .ToList();
         }
 
-        public Invoice GetInvoiceById(int invoiceId)
+        public Invoice? GetInvoiceById(int invoiceId, int userId)
         {
             return _context.Invoices
                 .Include(x => x.InvoiceItems)
                 .FirstOrDefault(x =>
                     x.InvoiceId == invoiceId &&
+                    x.UserId == userId &&
                     x.IsDeleted == false);
         }
 
@@ -137,6 +138,14 @@ namespace InvoiceFlow.DAL.Repositories.Implementations
 
         public void UpdateInvoice(Invoice invoice)
         {
+            _context.Invoices.Update(invoice);
+        }
+
+        public void DeleteInvoice(Invoice invoice)
+        {
+            invoice.IsDeleted = true;
+            invoice.UpdatedDate = DateTime.Now;
+
             _context.Invoices.Update(invoice);
         }
 

@@ -48,11 +48,13 @@ namespace InvoiceFlow.DAL.Repositories.Interfaces
 
         List<Invoice> GetInvoices(int userId);
 
-        Invoice GetInvoiceById(int invoiceId);
+        Invoice? GetInvoiceById(int invoiceId, int userId);
 
         int CreateInvoice(Invoice invoice);
 
         void UpdateInvoice(Invoice invoice);
+
+        void DeleteInvoice(Invoice invoice);
 
         // ===========================
         // Invoice Items
