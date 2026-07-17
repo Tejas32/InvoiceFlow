@@ -1,39 +1,69 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using InvoiceFlow.DAL.Models;
+﻿using InvoiceFlow.DAL.Models;
 
 namespace InvoiceFlow.DAL.Repositories.Interfaces
 {
     public interface IInvoiceFlowRepository
     {
+        // ===========================
+        // Users
+        // ===========================
+
         User GetUserByEmail(string email);
-        void AddUser(User user);
 
-        // clients
-        List<Client> GetClients(int userId);
-        void AddClient(Client client);
-
-        // Products
-        List<Product> GetProducts(int userId);
-        void AddProduct(Product product);
-
-        // Invoices
-        List<Invoice> GetInvoices(int userId);
-        Invoice GetInvoiceById(int invoiceId);
-        int CreateInvoice(Invoice invoice);
-        void UpdateInvoice(Invoice invoice);
-
-        // Invoice Items
-        void AddInvoiceItems(List<InvoiceItem> items);
-
-        // Get user by email and password
         User GetUserByEmailAndPassword(string email, string password);
 
-        // Save
+        void AddUser(User user);
+
+        // ===========================
+        // Clients
+        // ===========================
+
+        List<Client> GetClients(int userId);
+
+        Client? GetClientById(int clientId, int userId);
+
+        void AddClient(Client client);
+
+        void UpdateClient(Client client);
+
+        void DeleteClient(Client client);
+
+        // ===========================
+        // Products
+        // ===========================
+
+        List<Product> GetProducts(int userId);
+
+        Product? GetProductById(int productId, int userId);
+
+        void AddProduct(Product product);
+
+        void UpdateProduct(Product product);
+
+        void DeleteProduct(Product product);
+
+        // ===========================
+        // Invoices
+        // ===========================
+
+        List<Invoice> GetInvoices(int userId);
+
+        Invoice GetInvoiceById(int invoiceId);
+
+        int CreateInvoice(Invoice invoice);
+
+        void UpdateInvoice(Invoice invoice);
+
+        // ===========================
+        // Invoice Items
+        // ===========================
+
+        void AddInvoiceItems(List<InvoiceItem> items);
+
+        // ===========================
+        // Save Changes
+        // ===========================
+
         void Save();
     }
 }
